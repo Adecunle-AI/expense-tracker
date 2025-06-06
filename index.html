@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flashcard Quiz App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    .card {
+      width: 300px;
+      margin: auto;
+      padding: 2rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #f9f9f9;
+      transition: background 0.3s;
+    }
+    .buttons {
+      margin-top: 1rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      margin: 0.5rem;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Flashcard Quiz</h1>
+  <div id="card" class="card">Click to reveal the answer</div>
+
+  <div class="buttons">
+    <button id="knownBtn" class="hidden">I Knew It</button>
+    <button id="reviewBtn" class="hidden">Review Again</button>
+  </div>
+
+  <div id="progress"></div>
+
+  <script>
+    // Flashcard data
+    const flashcards = [
+      { question: "What is the capital of France?", answer: "Paris" },
+      { question: "2 + 2 equals?", answer: "4" },
+      { question: "What keyword declares a constant in JS?", answer: "const" }
+    ];
+
+    let currentIndex = 0;
+    let showingAnswer = false;
+    let knownCount = 0;
+
+    const card = document.getElementById("card");
+    const knownBtn = document.getElementById("knownBtn");
+    const reviewBtn = document.getElementById("reviewBtn");
+    const progress = document.getElementById("progress");
+
+    function updateCard() {
+      showingAnswer = false;
+      if (currentIndex >= flashcards.length) {
+        card.textContent = "Quiz Completed!";
+        knownBtn.classList.add("hidden");
+        reviewBtn.classList.add("hidden");
+        progress.textContent = `You knew ${knownCount} out of ${flashcards.length} cards.`;
+        return;
+      }
+
+      card.textContent = flashcards[currentIndex].question;
+      knownBtn.classList.add("hidden");
+      reviewBtn.classList.add("hidden");
+    }
+
+    card.addEventListener("click", () => {
+      if (currentIndex >= flashcards.length) return;
+      if (!showingAnswer) {
+        card.textContent = flashcards[currentIndex].answer;
+        showingAnswer = true;
+        knownBtn.classList.remove("hidden");
+        reviewBtn.classList.remove("hidden");
+      }
+    });
+
+    knownBtn.addEventListener("click", () => {
+      knownCount++;
+      currentIndex++;
+      updateCard();
+    });
+
+    reviewBtn.addEventListener("click", () => {
+      currentIndex++;
+      updateCard();
+    });
+
+    updateCard();
+  </script>
+</body>
+</html>
