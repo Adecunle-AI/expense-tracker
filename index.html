@@ -61,7 +61,7 @@
   </div>
 
   <script>
-    const expenseEl = document.getElementById("expenses");
+    const expensesEl = document.getElementById("expenses");
     const form = document.getElementById("transaction-form");
     const descriptionInput = document.getElementById("description");
     const amountInput = document.getElementById("amount");
@@ -88,7 +88,7 @@
       };
 
       transactions.push(transaction);
-      updateBalance();
+      updateExpenses();
       addTransactionToDOM(transaction);
 
       form.reset();
