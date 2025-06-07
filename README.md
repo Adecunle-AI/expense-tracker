@@ -1,6 +1,6 @@
-# Budget Tracker App
+# Expense Tracker App
 
-A **budget tracking web app** built using **HTML, CSS, and JavaScript**. This app allows users to add income and expenses, automatically calculates the balance, and displays a running list of transactions.
+An **expense tracking web app** built using **HTML, CSS, and JavaScript**. This app adds expenses automatically, and displays a running list of transactions.
 
 ---
 
