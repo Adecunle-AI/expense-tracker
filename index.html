@@ -35,6 +35,7 @@
     .transaction {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       padding: 0.5rem;
       border-bottom: 1px solid #ccc;
     }
@@ -44,12 +45,25 @@
     .expense {
       color: red;
     }
+    .date {
+      font-size: 0.8rem;
+      color: #555;
+      margin-left: 10px;
+    }
+    .delete-btn {
+      background: none;
+      border: none;
+      color: red;
+      cursor: pointer;
+      font-size: 1.2rem;
+      margin-left: 10px;
+    }
   </style>
 </head>
 <body>
 
   <h1>Expense Tracker</h1>
-  <div class="expenses">Expenses: $<span id="expenses">0.00</span></div>
+  <div class="expenses">Balance: $<span id="expenses">0.00</span></div>
 
   <form id="transaction-form">
     <input type="text" id="description" placeholder="Enter description" required />
@@ -57,8 +71,7 @@
     <button type="submit">Add Transaction</button>
   </form>
 
-  <div class="transactions" id="transaction-list">
-  </div>
+  <div class="transactions" id="transaction-list"></div>
 
   <script>
     const expensesEl = document.getElementById("expenses");
@@ -84,12 +97,13 @@
       const transaction = {
         id: Date.now(),
         description,
-        amount
+        amount,
+        date: new Date()
       };
 
       transactions.push(transaction);
       updateExpenses();
-      addTransactionToDOM(transaction);
+      renderTransactions();
 
       form.reset();
     });
@@ -99,15 +113,40 @@
       expensesEl.textContent = expenses.toFixed(2);
     }
 
-    function addTransactionToDOM(transaction) {
-      const div = document.createElement("div");
-      div.classList.add("transaction");
-      div.classList.add(transaction.amount >= 0 ? "income" : "expense");
-      div.innerHTML = `
-        <span>${transaction.description}</span>
-        <span>${transaction.amount >= 0 ? '+' : ''}$${transaction.amount.toFixed(2)}</span>
-      `;
-      transactionList.prepend(div);
+    function renderTransactions() {
+      transactionList.innerHTML = "";
+
+      transactions.slice().reverse().forEach(transaction => {
+        const div = document.createElement("div");
+        div.classList.add("transaction");
+        div.classList.add(transaction.amount >= 0 ? "income" : "expense");
+
+        const dateStr = new Date(transaction.date).toLocaleDateString(undefined, {
+          year: 'numeric', month: 'short', day: 'numeric'
+        });
+
+        div.innerHTML = `
+          <div>
+            <strong>${transaction.description}</strong>
+            <span class="date">(${dateStr})</span>
+          </div>
+          <div>
+            <span>${transaction.amount >= 0 ? '+' : ''}$${transaction.amount.toFixed(2)}</span>
+            <button class="delete-btn" onclick="deleteTransaction(${transaction.id})">×</button>
+          </div>
+        `;
+
+        transactionList.appendChild(div);
+      });
+    }
+
+    function deleteTransaction(id) {
+      const index = transactions.findIndex(tx => tx.id === id);
+      if (index !== -1) {
+        transactions.splice(index, 1);
+        updateExpenses();
+        renderTransactions();
+      }
     }
   </script>
 </body>
