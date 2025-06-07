@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Budget Tracker App</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense Tracker App</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -47,8 +48,8 @@
 </head>
 <body>
 
-  <h1>Budget Tracker</h1>
-  <div class="balance">Balance: $<span id="balance">0.00</span></div>
+  <h1>Expense Tracker</h1>
+  <div class="expense">Expenses: $<span id="expense">0.00</span></div>
 
   <form id="transaction-form">
     <input type="text" id="description" placeholder="Enter description" required />
@@ -57,17 +58,16 @@
   </form>
 
   <div class="transactions" id="transaction-list">
-    <!-- Transactions will go here -->
   </div>
 
   <script>
-    const balanceEl = document.getElementById("balance");
+    const expenseEl = document.getElementById("expense");
     const form = document.getElementById("transaction-form");
     const descriptionInput = document.getElementById("description");
     const amountInput = document.getElementById("amount");
     const transactionList = document.getElementById("transaction-list");
 
-    let balance = 0;
+    let expense = 0;
     const transactions = [];
 
     form.addEventListener("submit", function(e) {
@@ -91,11 +91,10 @@
       updateBalance();
       addTransactionToDOM(transaction);
 
-      // Reset form
       form.reset();
     });
 
-    function updateBalance() {
+    function updateExpense() {
       balance = transactions.reduce((total, tx) => total + tx.amount, 0);
       balanceEl.textContent = balance.toFixed(2);
     }
