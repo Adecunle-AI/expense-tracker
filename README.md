@@ -1,26 +1,25 @@
-# Flashcard Quiz App
+# Budget Tracker App
 
-A simple flashcard quiz application built using **HTML**, **CSS**, and **JavaScript**. This project helps users test their knowledge by flipping through flashcards and marking whether they knew the answer or not.
+A **budget tracking web app** built using **HTML, CSS, and JavaScript**. This app allows users to add income and expenses, automatically calculates the balance, and displays a running list of transactions.
 
 ---
 
 ## Features
 
-- Flip cards to reveal answers
-- Mark cards as **"I Knew It"** or **"Review Again"**
-- See progress summary at the end
-- Fully functional with just one HTML file (internal CSS & JS)
-- Built with beginner-friendly, readable JavaScript
+- Add income and expense transactions
+- Calculates and displays total balance
+- Displays a list of all transactions
+- Clean UI with basic styling (no frameworks)
+- Built as a single `index.html` file with internal CSS and JavaScript
 
 ---
 
 ## Skills Demonstrated
 
-This project showcases core **JavaScript fundamentals**, including:
+This project was built to showcase JavaScript fundamentals as learned in beginner tutorials such as FreeCodeCamp's JavaScript course:
 
-- Variables, arrays, and objects
-- DOM manipulation
-- Event handling and user interaction
-- Conditional rendering
-- Basic state management (tracking quiz progress)
-- Clean and readable code structure
+- Form handling and input validation
+- Array operations and object storage
+- Dynamic DOM manipulation
+- Event listeners and conditional rendering
+- Basic application logic for finance/accounting
