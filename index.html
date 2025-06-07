@@ -2,101 +2,114 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Flashcard Quiz App</title>
+  <title>Budget Tracker App</title>
   <style>
     body {
       font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background-color: #f4f4f4;
+    }
+    h1 {
       text-align: center;
-      padding: 2rem;
     }
-    .card {
-      width: 300px;
-      margin: auto;
-      padding: 2rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      cursor: pointer;
-      background-color: #f9f9f9;
-      transition: background 0.3s;
+    .balance {
+      font-size: 1.5rem;
+      margin: 1rem 0;
+      text-align: center;
     }
-    .buttons {
-      margin-top: 1rem;
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
     }
-    button {
-      padding: 0.5rem 1rem;
-      margin: 0.5rem;
+    input, button {
+      padding: 0.5rem;
+      font-size: 1rem;
     }
-    .hidden {
-      display: none;
+    .transactions {
+      margin-top: 2rem;
+    }
+    .transaction {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem;
+      border-bottom: 1px solid #ccc;
+    }
+    .income {
+      color: green;
+    }
+    .expense {
+      color: red;
     }
   </style>
 </head>
 <body>
 
-  <h1>Flashcard Quiz</h1>
-  <div id="card" class="card">Click to reveal the answer</div>
+  <h1>Budget Tracker</h1>
+  <div class="balance">Balance: $<span id="balance">0.00</span></div>
 
-  <div class="buttons">
-    <button id="knownBtn" class="hidden">I Knew It</button>
-    <button id="reviewBtn" class="hidden">Review Again</button>
+  <form id="transaction-form">
+    <input type="text" id="description" placeholder="Enter description" required />
+    <input type="number" id="amount" placeholder="Enter amount (use - for expense)" required />
+    <button type="submit">Add Transaction</button>
+  </form>
+
+  <div class="transactions" id="transaction-list">
+    <!-- Transactions will go here -->
   </div>
 
-  <div id="progress"></div>
-
   <script>
-    // Flashcard data
-    const flashcards = [
-      { question: "What is the capital of France?", answer: "Paris" },
-      { question: "2 + 2 equals?", answer: "4" },
-      { question: "What keyword declares a constant in JS?", answer: "const" }
-    ];
+    const balanceEl = document.getElementById("balance");
+    const form = document.getElementById("transaction-form");
+    const descriptionInput = document.getElementById("description");
+    const amountInput = document.getElementById("amount");
+    const transactionList = document.getElementById("transaction-list");
 
-    let currentIndex = 0;
-    let showingAnswer = false;
-    let knownCount = 0;
+    let balance = 0;
+    const transactions = [];
 
-    const card = document.getElementById("card");
-    const knownBtn = document.getElementById("knownBtn");
-    const reviewBtn = document.getElementById("reviewBtn");
-    const progress = document.getElementById("progress");
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
 
-    function updateCard() {
-      showingAnswer = false;
-      if (currentIndex >= flashcards.length) {
-        card.textContent = "Quiz Completed!";
-        knownBtn.classList.add("hidden");
-        reviewBtn.classList.add("hidden");
-        progress.textContent = `You knew ${knownCount} out of ${flashcards.length} cards.`;
+      const description = descriptionInput.value.trim();
+      const amount = parseFloat(amountInput.value);
+
+      if (description === "" || isNaN(amount)) {
+        alert("Please enter valid description and amount.");
         return;
       }
 
-      card.textContent = flashcards[currentIndex].question;
-      knownBtn.classList.add("hidden");
-      reviewBtn.classList.add("hidden");
+      const transaction = {
+        id: Date.now(),
+        description,
+        amount
+      };
+
+      transactions.push(transaction);
+      updateBalance();
+      addTransactionToDOM(transaction);
+
+      // Reset form
+      form.reset();
+    });
+
+    function updateBalance() {
+      balance = transactions.reduce((total, tx) => total + tx.amount, 0);
+      balanceEl.textContent = balance.toFixed(2);
     }
 
-    card.addEventListener("click", () => {
-      if (currentIndex >= flashcards.length) return;
-      if (!showingAnswer) {
-        card.textContent = flashcards[currentIndex].answer;
-        showingAnswer = true;
-        knownBtn.classList.remove("hidden");
-        reviewBtn.classList.remove("hidden");
-      }
-    });
-
-    knownBtn.addEventListener("click", () => {
-      knownCount++;
-      currentIndex++;
-      updateCard();
-    });
-
-    reviewBtn.addEventListener("click", () => {
-      currentIndex++;
-      updateCard();
-    });
-
-    updateCard();
+    function addTransactionToDOM(transaction) {
+      const div = document.createElement("div");
+      div.classList.add("transaction");
+      div.classList.add(transaction.amount >= 0 ? "income" : "expense");
+      div.innerHTML = `
+        <span>${transaction.description}</span>
+        <span>${transaction.amount >= 0 ? '+' : ''}$${transaction.amount.toFixed(2)}</span>
+      `;
+      transactionList.prepend(div);
+    }
   </script>
 </body>
 </html>
