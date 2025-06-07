@@ -1,6 +1,6 @@
 # Expense Tracker App
 
-An **expense tracking web app** built using **HTML, CSS, and JavaScript**. This app adds expenses automatically, and displays a running list of transactions.
+An **expense tracking web app** built using **HTML, CSS, and JavaScript**. This app adds income and expenses automatically, and displays a running list of transactions.
 
 ---
 
@@ -9,14 +9,14 @@ An **expense tracking web app** built using **HTML, CSS, and JavaScript**. This 
 - Add income and expense transactions
 - Calculates and displays total balance
 - Displays a list of all transactions
-- Clean UI with basic styling (no frameworks)
+- Clean UI with basic styling
 - Built as a single `index.html` file with internal CSS and JavaScript
 
 ---
 
 ## Skills Demonstrated
 
-This project was built to showcase JavaScript fundamentals as learned in beginner tutorials such as FreeCodeCamp's JavaScript course:
+This project was built to showcase JavaScript fundamentals such as:
 
 - Form handling and input validation
 - Array operations and object storage
